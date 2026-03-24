@@ -1,0 +1,34 @@
+# Dependencies
+dashboard/node_modules/
+dashboard/build/
+dashboard/.next/
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Vercel
+.vercel/
+
+# Claude
+.claude/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+.pytest_cache/
+dist/
+
+# Jupyter
+.ipynb_checkpoints/
+.vercel
