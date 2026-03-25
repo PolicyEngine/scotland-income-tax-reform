@@ -75,19 +75,8 @@ function CustomTooltip({ active, payload, label, formatter }) {
   );
 }
 
-const STEP_COLORS = {
-  current: colors.gray[500],
-  ruk: colors.primary[500],
-  phase1: "#10b981",
-  phase2: "#8b5cf6",
-};
-
-const STEP_LABELS = {
-  current: "Current Scottish",
-  ruk: "Rest of UK",
-  phase1: "Phase 1 (Rest of UK minus 1p)",
-  phase2: "Phase 2 (Rest of UK minus 4p)",
-};
+const BASELINE_COLOR = colors.gray[400];
+const REFORM_COLOR = colors.primary[600];
 
 function buildStepData(rateComparison) {
   // Build a series of points for each schedule, suitable for a step line chart.
@@ -123,53 +112,18 @@ function buildStepData(rateComparison) {
   return points;
 }
 
-const SCHEDULE_OPTIONS = [
-  { key: "current", label: "Current Scottish" },
-  { key: "ruk", label: "Rest of UK" },
-  { key: "phase1", label: "Phase 1 (Rest of UK minus 1p)" },
-  { key: "phase2", label: "Phase 2 (Rest of UK minus 4p)" },
-];
-
-function RateScheduleChart({ rateComparison }) {
-  const [left, setLeft] = useState("current");
-  const [right, setRight] = useState("phase1");
+function RateScheduleChart({ rateComparison, selectedPhase }) {
   const stepData = useMemo(() => buildStepData(rateComparison), [rateComparison]);
+  const reformKey = selectedPhase;
+  const reformLabel = selectedPhase === "phase1"
+    ? "Phase 1 (rUK minus 1p)"
+    : "Phase 2 (rUK minus 4p)";
 
   const formatIncome = (v) =>
     v === 0 ? "£0" : `£${(v / 1000).toFixed(0)}k`;
 
   return (
     <div>
-      <div className="mb-5 grid gap-3 sm:grid-cols-2">
-        <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Compare
-          </label>
-          <select
-            value={left}
-            onChange={(e) => setLeft(e.target.value)}
-            className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-sm transition focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-300"
-          >
-            {SCHEDULE_OPTIONS.filter((o) => o.key !== right).map((o) => (
-              <option key={o.key} value={o.key}>{o.label}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Against
-          </label>
-          <select
-            value={right}
-            onChange={(e) => setRight(e.target.value)}
-            className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-sm transition focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-300"
-          >
-            {SCHEDULE_OPTIONS.filter((o) => o.key !== left).map((o) => (
-              <option key={o.key} value={o.key}>{o.label}</option>
-            ))}
-          </select>
-        </div>
-      </div>
       <div className="h-[360px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={stepData} margin={{ top: 10, right: 30, left: 10, bottom: 20 }}>
@@ -235,20 +189,19 @@ function RateScheduleChart({ rateComparison }) {
             />
             <Line
               type="stepAfter"
-              dataKey={left}
-              name={STEP_LABELS[left]}
-              stroke={STEP_COLORS[left]}
+              dataKey="current"
+              name="Current Scottish (baseline)"
+              stroke={BASELINE_COLOR}
               strokeWidth={2.5}
               dot={false}
               connectNulls={false}
             />
             <Line
               type="stepAfter"
-              dataKey={right}
-              name={STEP_LABELS[right]}
-              stroke={STEP_COLORS[right]}
+              dataKey={reformKey}
+              name={reformLabel}
+              stroke={REFORM_COLOR}
               strokeWidth={2.5}
-              strokeDasharray="6 3"
               dot={false}
               connectNulls={false}
             />
@@ -364,7 +317,7 @@ export default function ReformTab({ data }) {
           title="Rate schedule comparison"
           description="Marginal income tax rates at each income level. Use the dropdowns to compare any two schedules — current Scottish, rest of UK, Phase 1, or Phase 2. The step chart shows where rates jump at each band threshold."
         />
-        <RateScheduleChart rateComparison={data.rate_comparison} />
+        <RateScheduleChart rateComparison={data.rate_comparison} selectedPhase={selectedPhase} />
       </div>
 
       <div className="grid gap-6 xl:grid-cols-2">
