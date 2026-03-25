@@ -208,19 +208,19 @@ def build_article_comparison(phase1_cost, phase2_cost, phase2_additional):
 
     return {
         "phase1": {
-            "article_claim": "~2",
+            "article_claim": "2",
             "pe_estimate_bn": round(p1_bn, 1),
-            "description": "Phase 1: align with rUK + 1p cut",
+            "description": "Phase 1: align with rUK + 1pp cut",
         },
         "phase2_additional": {
             "article_claim": "3.7",
             "pe_estimate_bn": round(p2_add_bn, 1),
-            "description": "Phase 2: further 3p cut (additional cost)",
+            "description": "Phase 2: further 3pp cut (additional cost)",
         },
         "total": {
-            "article_claim": "~5.7",
+            "article_claim": "5.7",
             "pe_estimate_bn": round(p2_bn, 1),
-            "description": "Total cost (4p below rUK)",
+            "description": "Total cost (4pp below rUK)",
         },
         "growth_per_pp_ifs_bn": 0.3,
         "growth_needed_phase1_pp": round(p1_bn / 0.3, 0),

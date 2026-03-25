@@ -24,20 +24,47 @@ from scotland_income_tax_reform.analysis import (
 )
 
 
-CURRENT_SCOTTISH_RATES = [
-    {"band": "Starter", "threshold": 0, "rate": 19},
-    {"band": "Basic", "threshold": 14_876, "rate": 20},
-    {"band": "Intermediate", "threshold": 26_561, "rate": 21},
-    {"band": "Higher", "threshold": 43_662, "rate": 42},
-    {"band": "Advanced", "threshold": 75_000, "rate": 45},
-    {"band": "Top", "threshold": 125_140, "rate": 48},
-]
+SCOTTISH_BAND_NAMES = ["Starter", "Basic", "Intermediate", "Higher", "Advanced", "Top"]
+RUK_BAND_NAMES = ["Basic", "Higher", "Additional"]
 
-RUK_RATES = [
-    {"band": "Basic", "threshold": 0, "rate": 20},
-    {"band": "Higher", "threshold": 37_700, "rate": 40},
-    {"band": "Additional", "threshold": 125_140, "rate": 45},
-]
+
+def _read_scottish_rates(sim, year):
+    """Read Scottish income tax rates and thresholds from the simulation."""
+    params = sim.tax_benefit_system.parameters
+    pa = params.gov.hmrc.income_tax.allowances.personal_allowance.amount(f"{year}-01-01")
+    scot = params.gov.hmrc.income_tax.rates.scotland.rates
+    rates = []
+    for i, b in enumerate(scot.brackets):
+        if i >= len(SCOTTISH_BAND_NAMES):
+            break
+        threshold = b.threshold(f"{year}-01-01")
+        rate = b.rate(f"{year}-01-01")
+        # Convert from threshold-above-PA to income threshold
+        income_threshold = round(threshold + pa) if threshold > 0 else 0
+        rates.append({
+            "band": SCOTTISH_BAND_NAMES[i],
+            "threshold": income_threshold,
+            "rate": round(rate * 100),
+        })
+    return rates
+
+
+def _read_ruk_rates(sim, year):
+    """Read rest-of-UK income tax rates and thresholds from the simulation."""
+    params = sim.tax_benefit_system.parameters
+    uk = params.gov.hmrc.income_tax.rates.uk
+    rates = []
+    for i, b in enumerate(uk.brackets):
+        if i >= len(RUK_BAND_NAMES):
+            break
+        threshold = b.threshold(f"{year}-01-01")
+        rate = b.rate(f"{year}-01-01")
+        rates.append({
+            "band": RUK_BAND_NAMES[i],
+            "threshold": round(threshold),
+            "rate": round(rate * 100),
+        })
+    return rates
 
 
 def make_reform(rate_cut_pp):
@@ -46,22 +73,37 @@ def make_reform(rate_cut_pp):
     from policyengine_core.periods import instant
 
     def apply(sim):
-        scot = sim.tax_benefit_system.parameters.gov.hmrc.income_tax.rates.scotland.rates
+        params = sim.tax_benefit_system.parameters
+        scot = params.gov.hmrc.income_tax.rates.scotland.rates
+        uk = params.gov.hmrc.income_tax.rates.uk
         start = instant("2026-01-01")
         stop = instant("2027-12-31")
 
         cut = rate_cut_pp / 100
 
-        # rUK 2026: basic 20%, higher 40%, additional 45%
-        # Minus cut_pp from each
-        schedule = [
-            (0, 0.20 - cut),
-            (1, 0.20 - cut),
-            (2, 0.20 - cut),
-            (37_700, 0.40 - cut),
-            (125_140, 0.45 - cut),
-            (10_000_000, 0.45 - cut),
-        ]
+        # Read rUK brackets from the parameter tree
+        ruk_brackets = []
+        for b in uk.brackets:
+            threshold = b.threshold(str(start))
+            rate = b.rate(str(start))
+            ruk_brackets.append((threshold, rate))
+
+        # Map rUK brackets onto the 6 Scottish brackets:
+        # First 3 Scottish brackets -> rUK basic rate, with dummy thresholds
+        # to preserve bracket count
+        n_scot = len(scot.brackets)
+        n_ruk = len(ruk_brackets)
+        schedule = []
+        for i in range(n_scot):
+            if i < n_scot - n_ruk:
+                # Filler brackets mapped to the basic rate
+                threshold = i  # 0, 1, 2, ...
+                rate = ruk_brackets[0][1] - cut
+            else:
+                ruk_idx = i - (n_scot - n_ruk)
+                threshold = ruk_brackets[ruk_idx][0]
+                rate = ruk_brackets[ruk_idx][1] - cut
+            schedule.append((threshold, rate))
 
         for i, (threshold, rate) in enumerate(schedule):
             scot.brackets[i].rate.update(start=start, stop=stop, value=rate)
@@ -76,12 +118,10 @@ def make_reform(rate_cut_pp):
 
 
 def _scot_totals(sim, year, is_scot, is_scot_hh):
-    """Calculate Scotland-only totals for a simulation."""
+    """Calculate Scotland-only totals using native MicroSeries."""
     it = float(sim.calculate("income_tax", year)[is_scot].sum())
     earned = float(sim.calculate("earned_income_tax", year)[is_scot].sum())
-    hh_inc = float(
-        sim.calculate("household_net_income", year)[is_scot_hh].sum()
-    )
+    hh_inc = float(sim.calculate("household_net_income", year)[is_scot_hh].sum())
     return it, earned, hh_inc
 
 
@@ -110,13 +150,17 @@ def build_results(year=DEFAULT_YEAR):
     print("Loading baseline ...")
     baseline = _run_simulation()
 
-    print("Loading phase 1 reform (rUK minus 1p) ...")
+    # Read rates from PE's parameter tree (inflation-adjusted for the target year)
+    current_scottish_rates = _read_scottish_rates(baseline, year)
+    ruk_rates = _read_ruk_rates(baseline, year)
+
+    print("Loading phase 1 reform (rUK minus 1pp) ...")
     phase1_sim = _run_simulation(rate_cut_pp=1)
 
-    print("Loading phase 2 reform (rUK minus 4p) ...")
+    print("Loading phase 2 reform (rUK minus 4pp) ...")
     phase2_sim = _run_simulation(rate_cut_pp=4)
 
-    # Scotland masks
+    # Scotland masks (native bool arrays)
     is_scot = (
         baseline.calculate("pays_scottish_income_tax", year)
         .values.astype(bool)
@@ -126,32 +170,23 @@ def build_results(year=DEFAULT_YEAR):
         .values.astype(bool)
     )
 
-    # Totals
+    # Totals (native MicroSeries .sum() uses built-in weights)
     b_it, b_earned, b_hh = _scot_totals(baseline, year, is_scot, is_scot_hh)
-    p1_it, p1_earned, p1_hh = _scot_totals(
-        phase1_sim, year, is_scot, is_scot_hh
-    )
-    p2_it, p2_earned, p2_hh = _scot_totals(
-        phase2_sim, year, is_scot, is_scot_hh
-    )
+    p1_it, p1_earned, p1_hh = _scot_totals(phase1_sim, year, is_scot, is_scot_hh)
+    p2_it, p2_earned, p2_hh = _scot_totals(phase2_sim, year, is_scot, is_scot_hh)
 
     n_scottish_sample = int(is_scot.sum())
 
-    # Weighted count of Scottish taxpayers (those with positive IT liability)
-    # MicroSeries .sum() on boolean gives weighted count
-    person_it = baseline.calculate("income_tax", year)
-    scot_it = person_it[is_scot]
+    # Weighted count of Scottish taxpayers (native MicroSeries boolean .sum())
+    scot_it = baseline.calculate("income_tax", year)[is_scot]
     n_scottish_weighted = int((scot_it > 0).sum())
 
     phase1_cost = b_it - p1_it
     phase2_cost = b_it - p2_it
     phase2_additional = phase2_cost - phase1_cost
 
-    # Decile distributions
-    hh_weights = baseline.calculate(
-        "household_weight", year
-    ).values
-
+    # Decile distributions (native arrays via .values)
+    hh_weights = baseline.calculate("household_weight", year).values
     b_income, b_deciles, b_weights = _extract_decile_data(
         baseline, year, is_scot_hh, hh_weights
     )
@@ -209,61 +244,60 @@ def build_results(year=DEFAULT_YEAR):
         b_it, p2_it, b_earned, p2_earned, b_hh, p2_hh
     )
 
-    # Reform rate schedules
+    # Reform rate schedules: rUK structure minus the cut
     phase1_rates = [
-        {"band": "Basic", "threshold": 0, "rate": 19},
-        {"band": "Higher", "threshold": 37_700, "rate": 39},
-        {"band": "Additional", "threshold": 125_140, "rate": 44},
+        {**b, "rate": b["rate"] - 1} for b in ruk_rates
     ]
     phase2_rates = [
-        {"band": "Basic", "threshold": 0, "rate": 16},
-        {"band": "Higher", "threshold": 37_700, "rate": 36},
-        {"band": "Additional", "threshold": 125_140, "rate": 41},
+        {**b, "rate": b["rate"] - 4} for b in ruk_rates
     ]
 
     rate_comparison = build_rate_comparison_table(
-        CURRENT_SCOTTISH_RATES, RUK_RATES, phase1_rates, phase2_rates
+        current_scottish_rates, ruk_rates, phase1_rates, phase2_rates
     )
 
     comparison = build_article_comparison(
         phase1_cost, phase2_cost, phase2_additional
     )
 
-    # Per-household impact and % better off (using native MicroSeries)
-    b_hh_income_ms = baseline.calculate("household_net_income", year)[is_scot_hh]
-    p1_hh_income_ms = phase1_sim.calculate("household_net_income", year)[is_scot_hh]
-    p2_hh_income_ms = phase2_sim.calculate("household_net_income", year)[is_scot_hh]
+    # Per-household impact and % better off (native MicroSeries)
+    b_hh_inc_ms = baseline.calculate("household_net_income", year)[is_scot_hh]
+    p1_hh_inc_ms = phase1_sim.calculate("household_net_income", year)[is_scot_hh]
+    p2_hh_inc_ms = phase2_sim.calculate("household_net_income", year)[is_scot_hh]
 
-    p1_avg_hh_impact = float((p1_hh_income_ms - b_hh_income_ms).mean())
-    p2_avg_hh_impact = float((p2_hh_income_ms - b_hh_income_ms).mean())
+    p1_avg_hh_impact = float((p1_hh_inc_ms - b_hh_inc_ms).mean())
+    p2_avg_hh_impact = float((p2_hh_inc_ms - b_hh_inc_ms).mean())
 
-    p1_pct_better = float(
-        ((p1_hh_income_ms - b_hh_income_ms) > 1).mean() * 100
-    )
-    p2_pct_better = float(
-        ((p2_hh_income_ms - b_hh_income_ms) > 1).mean() * 100
-    )
+    p1_pct_better = float(((p1_hh_inc_ms - b_hh_inc_ms) > 1).mean() * 100)
+    p2_pct_better = float(((p2_hh_inc_ms - b_hh_inc_ms) > 1).mean() * 100)
 
-    # PE time series: compute mean/median HH net income and IT for 2020-2030
-    # All using native MicroSeries .mean() and .median() (weighted automatically)
+    # PE time series: person-weighted via map_to="person" (native MicroSeries)
+    # This matches HBAI methodology: each person weighted equally
     print("Computing PE time series (2020-2030) ...")
     pe_time_series = []
     for ts_year in range(2020, 2031):
         print(f"  Year {ts_year} ...")
-        ts_is_scot_hh = (
-            baseline.calculate("pays_scottish_income_tax", ts_year, map_to="household")
+        ts_is_scot = (
+            baseline.calculate("pays_scottish_income_tax", ts_year)
             .values.astype(bool)
         )
 
-        if ts_is_scot_hh.sum() == 0:
-            print(f"    Skipping {ts_year}: no Scottish HH data")
+        if ts_is_scot.sum() == 0:
+            print(f"    Skipping {ts_year}: no Scottish person data")
             continue
 
-        ts_equiv = baseline.calculate("equiv_household_net_income", ts_year)[ts_is_scot_hh]
-        ts_income = baseline.calculate("household_net_income", ts_year)[ts_is_scot_hh]
-        ts_it = baseline.calculate("income_tax", ts_year, map_to="household")[ts_is_scot_hh]
-        ts_ni = baseline.calculate("national_insurance", ts_year, map_to="household")[ts_is_scot_hh]
-        ts_ct = baseline.calculate("council_tax", ts_year, map_to="household")[ts_is_scot_hh]
+        # map_to="person" gives person-level MicroSeries with person_weight
+        ts_equiv = baseline.calculate(
+            "equiv_hbai_household_net_income", ts_year, map_to="person"
+        )[ts_is_scot]
+        ts_income = baseline.calculate(
+            "household_net_income", ts_year, map_to="person"
+        )[ts_is_scot]
+        ts_it = baseline.calculate("income_tax", ts_year)[ts_is_scot]
+        ts_ni = baseline.calculate("national_insurance", ts_year)[ts_is_scot]
+        ts_ct = baseline.calculate(
+            "council_tax", ts_year, map_to="person"
+        )[ts_is_scot]
         ts_deductions = ts_it + ts_ni + ts_ct
 
         pe_time_series.append({
@@ -282,19 +316,19 @@ def build_results(year=DEFAULT_YEAR):
         "year": year,
         "n_scottish_taxpayers": n_scottish_weighted,
         "n_scottish_sample": n_scottish_sample,
-        "current_scottish_rates": CURRENT_SCOTTISH_RATES,
-        "ruk_rates": RUK_RATES,
+        "current_scottish_rates": current_scottish_rates,
+        "ruk_rates": ruk_rates,
         "phase1": {
             **phase1,
             "reform_rates": phase1_rates,
-            "label": "rUK minus 1p",
+            "label": "rUK minus 1pp",
             "avg_hh_impact": round(p1_avg_hh_impact, 1),
             "pct_better_off": round(p1_pct_better, 1),
         },
         "phase2": {
             **phase2,
             "reform_rates": phase2_rates,
-            "label": "rUK minus 4p",
+            "label": "rUK minus 4pp",
             "avg_hh_impact": round(p2_avg_hh_impact, 1),
             "pct_better_off": round(p2_pct_better, 1),
         },

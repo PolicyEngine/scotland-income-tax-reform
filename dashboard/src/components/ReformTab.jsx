@@ -48,8 +48,8 @@ const AXIS_STYLE = {
 };
 
 const PHASE_OPTIONS = [
-  { id: "phase1", label: "Phase 1: Rest of UK minus 1p", shortLabel: "Phase 1" },
-  { id: "phase2", label: "Phase 2: Rest of UK minus 4p", shortLabel: "Phase 2" },
+  { id: "phase1", label: "Phase 1: Rest of UK minus 1pp", shortLabel: "Phase 1" },
+  { id: "phase2", label: "Phase 2: Rest of UK minus 4pp", shortLabel: "Phase 2" },
 ];
 
 function CustomTooltip({ active, payload, label, formatter }) {
@@ -116,8 +116,8 @@ function RateScheduleChart({ rateComparison, selectedPhase }) {
   const stepData = useMemo(() => buildStepData(rateComparison), [rateComparison]);
   const reformKey = selectedPhase;
   const reformLabel = selectedPhase === "phase1"
-    ? "Phase 1 (rUK minus 1p)"
-    : "Phase 2 (rUK minus 4p)";
+    ? "Phase 1 (rUK minus 1pp)"
+    : "Phase 2 (rUK minus 4pp)";
 
   const formatIncome = (v) =>
     v === 0 ? "£0" : `£${(v / 1000).toFixed(0)}k`;
@@ -241,24 +241,20 @@ export default function ReformTab({ data }) {
           Reform UK Scotland income tax proposal
         </h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          This section shows the revenue cost, distributional impact, and winners
-          and losers of each phase of the reform for Scottish taxpayers in 2026-27.
-          Phase 1 aligns Scottish rates with the rest of UK then cuts by 1p;
-          Phase 2 goes further with a 4p cut.{" "}
+          This section covers the revenue cost, distributional impact and winners
+          and losers of each phase for Scottish taxpayers in 2026-27. Phase 1
+          replaces Scotland{"'"}s six bands with the rest-of-UK structure and cuts
+          every rate by 1pp; Phase 2 cuts by 4pp instead.{" "}
           <a
             href="https://www.belfasttelegraph.co.uk/news/uk/reform-hits-out-at-ifs-analysis-of-scottish-tax-plans/a/144198262.html"
             target="_blank"
             rel="noreferrer"
             className="text-blue-600 hover:text-blue-800"
           >
-            Reform UK claims
+            Reform UK
           </a>{" "}
-          Phase 1 would cost ~£{comparison.phase1.article_claim} bn; PolicyEngine
-          estimates £{comparison.phase1.pe_estimate_bn} bn. For Phase 2, the claimed
-          total is ~£{comparison.total.article_claim} bn versus PolicyEngine{"'"}s
-          £{comparison.total.pe_estimate_bn} bn. The IFS estimates
-          ~{comparison.growth_needed_total_pp}pp of GDP growth would be needed to
-          self-fund the full reform.
+          puts the Phase 1 cost at £{comparison.phase1.article_claim} bn;
+          PolicyEngine estimates £{comparison.phase1.pe_estimate_bn} bn.
         </p>
       </div>
 

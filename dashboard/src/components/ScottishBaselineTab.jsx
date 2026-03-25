@@ -33,21 +33,14 @@ const AXIS_STYLE = {
   fill: colors.gray[500],
 };
 
-// HBAI official data: Scotland, equivalised HH net income (weekly, real 2023-24 prices)
-// Source: DWP Stat-Xplore, HBAI dataset, BHC measure
+// HBAI official data: Scotland, equivalised HH net income (weekly, NOMINAL in-year prices)
+// Source: DWP Stat-Xplore, HBAI dataset, BHC measure, person-weighted
 const OFFICIAL_HH_INCOME = [
-  { year: "2021-22", mean_weekly: 742, median_weekly: 618 },
-  { year: "2022-23", mean_weekly: 792, median_weekly: 649 },
+  { year: "2021-22", mean_weekly: 630, median_weekly: 525 },
+  { year: "2022-23", mean_weekly: 743, median_weekly: 608 },
   { year: "2023-24", mean_weekly: 741, median_weekly: 665 },
 ];
 
-// FRS official data: Scotland, gross HH income (weekly, real terms)
-// Source: DWP Stat-Xplore, FRSHH dataset
-const OFFICIAL_GROSS_INCOME = [
-  { year: "2021-22", mean_weekly: 912, median_weekly: 702 },
-  { year: "2022-23", mean_weekly: 1020, median_weekly: 717 },
-  { year: "2023-24", mean_weekly: 974, median_weekly: 749 },
-];
 
 function CustomTooltip({ active, payload, label, prefix = "£" }) {
   if (!active || !payload?.length) return null;
@@ -77,19 +70,18 @@ function yearLabel(y) {
 }
 
 // CPI deflators for nominal -> real conversion (2023-24 = 1.00)
-// Based on OBR inflation forecasts
+// Historical from ONS CPI index; forecasts from OBR
 const CPI_DEFLATORS = {
-  2023: 1.00, 2024: 1.03, 2025: 1.05, 2026: 1.07,
-  2027: 1.09, 2028: 1.11, 2029: 1.13, 2030: 1.16,
+  2021: 0.88, 2022: 0.95, 2023: 1.00, 2024: 1.03, 2025: 1.05,
+  2026: 1.07, 2027: 1.09, 2028: 1.11, 2029: 1.13, 2030: 1.16,
 };
 
-const MEASURE_OPTIONS = [
-  { value: "income", label: "Household net income" },
-  { value: "tax", label: "Household tax burden" },
-];
+// Map fiscal year labels to calendar year keys for deflator lookup
+const FISCAL_YEAR_MAP = {
+  "2021-22": 2021, "2022-23": 2022, "2023-24": 2023,
+};
 
 function LivingStandardsChart({ peTimeSeries }) {
-  const [measure, setMeasure] = useState("income");
   const [statType, setStatType] = useState("mean");
   const [adjustment, setAdjustment] = useState("nominal");
   const [viewMode, setViewMode] = useState("both");
@@ -97,60 +89,37 @@ function LivingStandardsChart({ peTimeSeries }) {
   const chartData = useMemo(() => {
     const byYear = {};
 
-    if (measure === "income") {
-      // Official HBAI (real 2023-24 prices, weekly -> annual)
-      for (const d of OFFICIAL_HH_INCOME) {
-        const meanAnnual = Math.round(d.mean_weekly * 52);
-        const medianAnnual = Math.round(d.median_weekly * 52);
-        byYear[d.year] = {
-          year: d.year,
-          official: statType === "mean" ? meanAnnual : medianAnnual,
-          forecast: null,
-        };
+    // Official HBAI (nominal, weekly -> annual, optionally deflated to real)
+    for (const d of OFFICIAL_HH_INCOME) {
+      let meanAnnual = Math.round(d.mean_weekly * 52);
+      let medianAnnual = Math.round(d.median_weekly * 52);
+      if (adjustment === "real") {
+        const deflator = CPI_DEFLATORS[FISCAL_YEAR_MAP[d.year]] || 1;
+        meanAnnual = Math.round(meanAnnual / deflator);
+        medianAnnual = Math.round(medianAnnual / deflator);
       }
-      // PE projections
-      for (const d of peTimeSeries) {
-        const label = yearLabel(d.year);
-        let val = statType === "mean" ? d.mean_equiv_net_income : d.median_equiv_net_income;
-        if (adjustment === "real" && CPI_DEFLATORS[d.year]) {
-          val = Math.round(val / CPI_DEFLATORS[d.year]);
-        }
-        if (byYear[label]) {
-          byYear[label].forecast = val;
-        } else {
-          byYear[label] = { year: label, official: null, forecast: val };
-        }
+      byYear[d.year] = {
+        year: d.year,
+        official: statType === "mean" ? meanAnnual : medianAnnual,
+        forecast: null,
+      };
+    }
+    // PE projections
+    for (const d of peTimeSeries) {
+      const label = yearLabel(d.year);
+      let val = statType === "mean" ? d.mean_equiv_net_income : d.median_equiv_net_income;
+      if (adjustment === "real" && CPI_DEFLATORS[d.year]) {
+        val = Math.round(val / CPI_DEFLATORS[d.year]);
       }
-    } else {
-      // Tax: official implied burden (gross - net)
-      for (const gross of OFFICIAL_GROSS_INCOME) {
-        const net = OFFICIAL_HH_INCOME.find((n) => n.year === gross.year);
-        if (!net) continue;
-        const meanBurden = Math.round((gross.mean_weekly - net.mean_weekly) * 52);
-        const medianBurden = Math.round((gross.median_weekly - net.median_weekly) * 52);
-        byYear[gross.year] = {
-          year: gross.year,
-          official: statType === "mean" ? meanBurden : medianBurden,
-          forecast: null,
-        };
-      }
-      // PE: IT + NI + CT
-      for (const d of peTimeSeries) {
-        const label = yearLabel(d.year);
-        let val = statType === "mean" ? d.mean_total_deductions : d.median_total_deductions;
-        if (adjustment === "real" && CPI_DEFLATORS[d.year]) {
-          val = Math.round(val / CPI_DEFLATORS[d.year]);
-        }
-        if (byYear[label]) {
-          byYear[label].forecast = val;
-        } else {
-          byYear[label] = { year: label, official: null, forecast: val };
-        }
+      if (byYear[label]) {
+        byYear[label].forecast = val;
+      } else {
+        byYear[label] = { year: label, official: null, forecast: val };
       }
     }
 
     return Object.values(byYear).sort((a, b) => a.year.localeCompare(b.year));
-  }, [peTimeSeries, measure, statType, adjustment]);
+  }, [peTimeSeries, statType, adjustment]);
 
   // Summary text
   const summary = useMemo(() => {
@@ -160,46 +129,30 @@ function LivingStandardsChart({ peTimeSeries }) {
     const last = forecasts[forecasts.length - 1];
     const pctChange = ((last.forecast - first.forecast) / first.forecast * 100).toFixed(0);
     const label = statType === "mean" ? "Mean" : "Median";
-    const what = measure === "income" ? "household income" : "household tax burden";
     const suffix = adjustment === "real" ? " (in 2023-24 prices)" : "";
-    return `${label} ${what} is forecast to ${Number(pctChange) >= 0 ? "increase" : "decrease"} by ${Math.abs(pctChange)}% from £${(first.forecast / 1000).toFixed(0)}k to £${(last.forecast / 1000).toFixed(0)}k by ${last.year}${suffix}.`;
-  }, [chartData, statType, measure, adjustment]);
+    return `${label} equivalised household income is forecast to ${Number(pctChange) >= 0 ? "increase" : "decrease"} by ${Math.abs(pctChange)}% from £${(first.forecast / 1000).toFixed(0)}k to £${(last.forecast / 1000).toFixed(0)}k by ${last.year}${suffix}.`;
+  }, [chartData, statType, adjustment]);
 
   const showOfficial = viewMode === "both" || viewMode === "outturn";
   const showForecast = viewMode === "both" || viewMode === "forecast";
 
-  const title = measure === "income" ? "Living standards" : "Tax burden";
-  const baseDescription = measure === "income"
-    ? `Solid lines show official data (DWP HBAI via Stat-Xplore, equivalised, Scotland); dashed lines show PolicyEngine projections.`
-    : `Solid lines show official data (DWP FRS & HBAI via Stat-Xplore, Scotland); dashed lines show PolicyEngine projections (IT + NI + council tax).`;
-
   return (
     <div className="section-card">
       <div className="mb-5">
-        <h2 className="text-xl font-semibold tracking-tight text-slate-900">{title}</h2>
+        <h2 className="text-xl font-semibold tracking-tight text-slate-900">Living standards</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          {summary && <>{summary}{" "}</>}
-          {baseDescription}
+          Income is measured per person: each individual is assigned their household&#39;s equivalised net income (BHC). Solid lines show official HBAI data (DWP Stat-Xplore); dashed lines show PolicyEngine projections using the same income definition.
         </p>
       </div>
 
       <div className="mb-5 flex flex-wrap items-center gap-3">
         <select
-          value={`${measure}-${statType}`}
-          onChange={(e) => {
-            const [m, s] = e.target.value.split("-");
-            setMeasure(m);
-            setStatType(s);
-          }}
+          value={statType}
+          onChange={(e) => setStatType(e.target.value)}
           className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm focus:border-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-300"
         >
-          {MEASURE_OPTIONS.flatMap((m) =>
-            ["mean", "median"].map((s) => (
-              <option key={`${m.value}-${s}`} value={`${m.value}-${s}`}>
-                {s === "mean" ? "Mean" : "Median"} {m.label.toLowerCase()}
-              </option>
-            ))
-          )}
+          <option value="mean">Mean</option>
+          <option value="median">Median</option>
         </select>
 
         <div className="inline-flex overflow-hidden rounded-lg border border-slate-200">
@@ -258,9 +211,7 @@ function LivingStandardsChart({ peTimeSeries }) {
               tickFormatter={(v) => `£${(v / 1000).toFixed(0)}k`}
               domain={[0, "auto"]}
               label={{
-                value: measure === "income"
-                  ? `Household income${adjustment === "real" ? " (2023-24 prices)" : ""}`
-                  : `Tax burden${adjustment === "real" ? " (2023-24 prices)" : ""}`,
+                value: `Equivalised income per person${adjustment === "real" ? " (2023-24 prices)" : ""}`,
                 angle: -90,
                 position: "insideLeft",
                 offset: 4,
@@ -348,7 +299,7 @@ export default function ScottishBaselineTab({ data }) {
     <div className="space-y-8">
       <SectionHeading
         title="Scottish income tax baseline"
-        description="An overview of Scotland's current income tax system before any reform. This section covers the rate structure, taxpayer numbers, revenue, and how the tax burden compares with the rest of UK across the income distribution."
+        description="This section covers Scotland's current income tax rate structure, taxpayer count, revenue, and how the tax burden compares with the rest of UK by income decile."
       />
 
       <div className="grid gap-4 md:grid-cols-2">
@@ -379,7 +330,7 @@ export default function ScottishBaselineTab({ data }) {
       {/* Rate structures — visual comparison */}
       <div className="section-card">
         <SectionHeading
-          title="Rate structures (2026-27)"
+          title="Current rate structures (2026-27)"
           description={<>Scotland has six income tax bands with rates from 19% to 48%, while the rest of UK has three bands from 20% to 45%. The higher Scottish rates — particularly the 42% higher, 45% advanced, and 48% top bands — are the gap <a href="https://ifs.org.uk/articles/analysis-reform-uk-proposal-income-tax-cuts-scotland" target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800">Reform UK Scotland proposes</a> to close.</>}
         />
         <div className="overflow-x-auto">

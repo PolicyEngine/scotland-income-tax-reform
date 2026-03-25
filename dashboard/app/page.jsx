@@ -80,8 +80,8 @@ function Dashboard() {
             >
               proposes
             </a>{" "}
-            aligning Scottish income tax with rest-of-UK
-            rates, then cutting by a further 1p (Phase 1) or 4p (Phase 2) in the pound.
+            replacing Scotland&#39;s six income tax bands with the simpler rest-of-UK structure, and
+            then reducing every rate by 1pp (Phase 1) or 4pp (Phase 2).
             The party claims this would be self-funding through economic growth. This dashboard uses PolicyEngine to estimate the
             fiscal and distributional effects using the Enhanced FRS microdata.
           </p>

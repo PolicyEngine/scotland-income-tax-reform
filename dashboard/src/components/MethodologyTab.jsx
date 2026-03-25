@@ -7,11 +7,12 @@ export default function MethodologyTab({ data }) {
           How the model works
         </h2>
         <p className="mt-4 text-sm leading-7 text-slate-600">
-          This dashboard uses PolicyEngine UK, a static microsimulation model,
-          to estimate the first-round fiscal and distributional effects of
-          Reform UK Scotland&apos;s income tax proposal. It models two phases:
-          aligning Scottish rates with rest of UK then cutting by 1p (Phase 1) or 4p
-          (Phase 2) in the pound. All figures are for the 2026-27 fiscal year.
+          PolicyEngine UK is a static microsimulation model. It applies the
+          current and reformed tax rules to every household in the Enhanced FRS
+          microdata and compares the results. Two reform phases are modelled:
+          replacing Scotland{"'"}s six income tax bands with the rest-of-UK
+          structure and cutting every rate by 1pp (Phase 1) or 4pp (Phase 2).
+          All figures are for 2026-27.
         </p>
       </div>
 
@@ -22,23 +23,23 @@ export default function MethodologyTab({ data }) {
             What the model captures
           </h3>
           <p className="mt-4 text-sm leading-7 text-slate-600">
-            Scottish earned income tax under the current six-band structure and
-            under the reformed three-band structure. Rate schedule changes,
-            revenue costs, household income changes, and distributional effects
-            by income decile for Scottish taxpayers.
+            Scottish earned income tax under the current six-band and reformed
+            three-band structures. Rate schedule changes, revenue costs,
+            household income changes, and distributional effects by income
+            decile.
           </p>
         </div>
 
         <div className="section-card">
           <div className="eyebrow text-slate-500">Excluded</div>
           <h3 className="mt-2 text-lg font-semibold text-slate-900">
-            What the model omits
+            What this analysis omits
           </h3>
           <p className="mt-4 text-sm leading-7 text-slate-600">
-            Behavioural responses (migration, labour supply changes), economic
-            growth effects, Laffer dynamics, savings and dividend income tax
-            (which uses UK-wide rates and is unaffected by this reform), and
-            any second-round fiscal effects from changed spending patterns.
+            Behavioural responses (migration, labour supply), economic growth
+            effects, Laffer dynamics, savings and dividend tax (UK-wide rates,
+            unaffected by this reform), and second-round fiscal effects from
+            changed spending.
           </p>
         </div>
 
@@ -48,10 +49,10 @@ export default function MethodologyTab({ data }) {
             Data and calibration
           </h3>
           <p className="mt-4 text-sm leading-7 text-slate-600">
-            Household microdata comes from the Enhanced Family Resources Survey
-            2023-24 via PolicyEngine UK. Scottish taxpayer identification uses
+            Household microdata from the Enhanced Family Resources Survey
+            2023-24 via PolicyEngine UK. Scottish taxpayers identified by
             the <code>pays_scottish_income_tax</code> variable. HMRC Scottish
-            income tax statistics provide external validation targets.
+            income tax statistics used for validation.
           </p>
         </div>
       </div>
@@ -63,8 +64,8 @@ export default function MethodologyTab({ data }) {
         </h3>
         <p className="mt-4 text-sm leading-7 text-slate-600">
           A Python pipeline generates <code>reform_results.json</code>, which
-          the dashboard consumes at build time. All source code, data
-          processing scripts, and configuration are available in the{" "}
+          the dashboard reads at build time. Source code, data processing, and
+          configuration are in the{" "}
           <a
             href="https://github.com/PolicyEngine/scotland-income-tax-reform"
             target="_blank"
