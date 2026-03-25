@@ -65,7 +65,7 @@ function Dashboard() {
     <div className="app-shell min-h-screen">
       <header className="title-row">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 md:px-8">
-          <h1>Scotland income tax change dashboard</h1>
+          <h1>Scotland income tax change analysis dashboard</h1>
         </div>
       </header>
 
