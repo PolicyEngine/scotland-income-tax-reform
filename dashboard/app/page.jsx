@@ -82,8 +82,7 @@ function Dashboard() {
             </a>{" "}
             replacing Scotland&#39;s six income tax bands with the simpler rest-of-UK structure, and
             then reducing every rate by 1pp (Phase 1) or 4pp (Phase 2).
-            The party claims this would be self-funding through economic growth. This dashboard uses PolicyEngine to estimate the
-            fiscal and distributional effects using the Enhanced FRS microdata.
+            The party claims this would be self-funding through economic growth. This dashboard uses the PolicyEngine UK microsimulation model to estimate the revenue cost and distributional effects.
           </p>
         </div>
 
