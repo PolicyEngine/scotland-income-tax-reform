@@ -322,7 +322,7 @@ export default function ScottishBaselineTab({ data }) {
             £{Number(earnedIT).toFixed(1)} bn
           </div>
           <div className="mt-2 text-sm text-slate-500">
-            Total earned income tax collected from Scottish taxpayers in 2026-27, excluding savings and dividend tax (PolicyEngine).
+            Total earned income tax collected from Scottish taxpayers in 2026-27, excluding savings and dividend tax (PolicyEngine). For comparison, <a href="https://www.gov.uk/government/publications/scottish-income-tax-hmrc-annual-report-2025/scottish-income-tax-hmrc-annual-report-2025--2" target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800">HMRC outturn</a> for 2023-24 was £17.1bn (also excluding savings and dividends).
           </div>
         </div>
       </div>
@@ -331,7 +331,7 @@ export default function ScottishBaselineTab({ data }) {
       <div className="section-card">
         <SectionHeading
           title="Current rate structures (2026-27)"
-          description={<>Scotland has six income tax bands with rates from 19% to 48%, while the rest of UK has three bands from 20% to 45%. The higher Scottish rates — particularly the 42% higher, 45% advanced, and 48% top bands — are the gap <a href="https://ifs.org.uk/articles/analysis-reform-uk-proposal-income-tax-cuts-scotland" target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800">Reform UK Scotland proposes</a> to close.</>}
+          description={<>Scotland has six income tax bands with rates from 19% to 48%, while the rest of UK has three bands from 20% to 45%. Thresholds are shown as taxable income — that is, income above the £12,570 personal allowance. The personal allowance is reduced by £1 for every £2 earned above £100,000 and is fully withdrawn at £125,140. The higher Scottish rates — particularly the 42% higher, 45% advanced, and 48% top bands — are the gap <a href="https://ifs.org.uk/articles/analysis-reform-uk-proposal-income-tax-cuts-scotland" target="_blank" rel="noreferrer" className="text-blue-600 hover:text-blue-800">Reform UK Scotland proposes</a> to close.</>}
         />
         <div className="overflow-x-auto">
           <table className="data-table">

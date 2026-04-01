@@ -253,8 +253,8 @@ export default function ReformTab({ data }) {
           >
             Reform UK
           </a>{" "}
-          puts the Phase 1 cost at £{comparison.phase1.article_claim} bn;
-          PolicyEngine estimates £{comparison.phase1.pe_estimate_bn} bn.
+          puts the Phase 1 cost at £{comparison.phase1.article_claim}bn;
+          PolicyEngine also estimates the same at £{comparison.phase1.pe_estimate_bn}bn.
         </p>
       </div>
 
@@ -311,7 +311,7 @@ export default function ReformTab({ data }) {
       <div className="section-card">
         <SectionHeading
           title="Rate schedule comparison"
-          description="Marginal income tax rates by taxable income (income above the personal allowance). The step chart shows where rates jump at each band threshold."
+          description="Marginal income tax rates by taxable income — that is, income above the £12,570 personal allowance. The personal allowance is reduced by £1 for every £2 earned above £100,000 and is fully withdrawn at £125,140."
         />
         <RateScheduleChart rateComparison={data.rate_comparison} selectedPhase={selectedPhase} />
       </div>
