@@ -1,6 +1,6 @@
 {
   "year": 2026,
-  "n_scottish_taxpayers": 3639619,
+  "n_scottish_taxpayers": 3633260,
   "n_scottish_sample": 10552,
   "current_scottish_rates": [
     {
@@ -10,27 +10,27 @@
     },
     {
       "band": "Basic",
-      "threshold": 15462,
+      "threshold": 2892,
       "rate": 20
     },
     {
       "band": "Intermediate",
-      "threshold": 27834,
+      "threshold": 15264,
       "rate": 21
     },
     {
       "band": "Higher",
-      "threshold": 43662,
+      "threshold": 31092,
       "rate": 42
     },
     {
       "band": "Advanced",
-      "threshold": 75000,
+      "threshold": 62430,
       "rate": 45
     },
     {
       "band": "Top",
-      "threshold": 125140,
+      "threshold": 112570,
       "rate": 48
     }
   ],
@@ -52,16 +52,16 @@
     }
   ],
   "phase1": {
-    "baseline_it_bn": 23.05,
-    "reform_it_bn": 20.89,
-    "it_change_bn": -2.16,
-    "baseline_earned_bn": 20.05,
-    "reform_earned_bn": 17.95,
-    "earned_change_bn": -2.1,
-    "baseline_hh_bn": 138.62,
-    "reform_hh_bn": 140.77,
-    "hh_change_bn": 2.15,
-    "revenue_cost_bn": 2.16,
+    "baseline_it_bn": 21.46,
+    "reform_it_bn": 19.42,
+    "it_change_bn": -2.04,
+    "baseline_earned_bn": 18.09,
+    "reform_earned_bn": 16.11,
+    "earned_change_bn": -1.98,
+    "baseline_hh_bn": 142.92,
+    "reform_hh_bn": 144.95,
+    "hh_change_bn": 2.03,
+    "revenue_cost_bn": 2.04,
     "reform_rates": [
       {
         "band": "Basic",
@@ -80,20 +80,20 @@
       }
     ],
     "label": "rUK minus 1pp",
-    "avg_hh_impact": 793.4,
-    "pct_better_off": 71.6
+    "avg_hh_impact": 745.7,
+    "pct_better_off": 68.0
   },
   "phase2": {
-    "baseline_it_bn": 23.05,
-    "reform_it_bn": 18.6,
-    "it_change_bn": -4.45,
-    "baseline_earned_bn": 20.05,
-    "reform_earned_bn": 15.69,
-    "earned_change_bn": -4.36,
-    "baseline_hh_bn": 138.62,
-    "reform_hh_bn": 142.99,
-    "hh_change_bn": 4.38,
-    "revenue_cost_bn": 4.45,
+    "baseline_it_bn": 21.46,
+    "reform_it_bn": 17.25,
+    "it_change_bn": -4.21,
+    "baseline_earned_bn": 18.09,
+    "reform_earned_bn": 13.96,
+    "earned_change_bn": -4.13,
+    "baseline_hh_bn": 142.92,
+    "reform_hh_bn": 147.05,
+    "hh_change_bn": 4.13,
+    "revenue_cost_bn": 4.21,
     "reform_rates": [
       {
         "band": "Basic",
@@ -112,132 +112,132 @@
       }
     ],
     "label": "rUK minus 4pp",
-    "avg_hh_impact": 1615.4,
-    "pct_better_off": 77.7
+    "avg_hh_impact": 1520.6,
+    "pct_better_off": 76.7
   },
   "distribution_by_decile": {
     "phase1": [
       {
         "decile": 1,
-        "avg_baseline_income": 19369.0,
+        "avg_baseline_income": 18807.0,
         "avg_income_change": 7.0,
         "avg_income_change_pct": 0.04
       },
       {
         "decile": 2,
-        "avg_baseline_income": 31306.0,
-        "avg_income_change": 61.0,
-        "avg_income_change_pct": 0.19
+        "avg_baseline_income": 33784.0,
+        "avg_income_change": 91.0,
+        "avg_income_change_pct": 0.27
       },
       {
         "decile": 3,
-        "avg_baseline_income": 34119.0,
-        "avg_income_change": 67.0,
-        "avg_income_change_pct": 0.2
+        "avg_baseline_income": 32295.0,
+        "avg_income_change": 52.0,
+        "avg_income_change_pct": 0.16
       },
       {
         "decile": 4,
-        "avg_baseline_income": 40303.0,
-        "avg_income_change": 234.0,
-        "avg_income_change_pct": 0.58
+        "avg_baseline_income": 39104.0,
+        "avg_income_change": 163.0,
+        "avg_income_change_pct": 0.42
       },
       {
         "decile": 5,
-        "avg_baseline_income": 46282.0,
-        "avg_income_change": 202.0,
-        "avg_income_change_pct": 0.44
+        "avg_baseline_income": 54832.0,
+        "avg_income_change": 160.0,
+        "avg_income_change_pct": 0.29
       },
       {
         "decile": 6,
-        "avg_baseline_income": 50671.0,
-        "avg_income_change": 307.0,
-        "avg_income_change_pct": 0.61
+        "avg_baseline_income": 52660.0,
+        "avg_income_change": 255.0,
+        "avg_income_change_pct": 0.48
       },
       {
         "decile": 7,
-        "avg_baseline_income": 51869.0,
-        "avg_income_change": 547.0,
-        "avg_income_change_pct": 1.05
+        "avg_baseline_income": 57538.0,
+        "avg_income_change": 565.0,
+        "avg_income_change_pct": 0.98
       },
       {
         "decile": 8,
-        "avg_baseline_income": 72088.0,
-        "avg_income_change": 1009.0,
-        "avg_income_change_pct": 1.4
+        "avg_baseline_income": 63448.0,
+        "avg_income_change": 992.0,
+        "avg_income_change_pct": 1.56
       },
       {
         "decile": 9,
-        "avg_baseline_income": 84016.0,
-        "avg_income_change": 1880.0,
-        "avg_income_change_pct": 2.24
+        "avg_baseline_income": 92146.0,
+        "avg_income_change": 2433.0,
+        "avg_income_change_pct": 2.64
       },
       {
         "decile": 10,
-        "avg_baseline_income": 101944.0,
-        "avg_income_change": 5010.0,
-        "avg_income_change_pct": 4.91
+        "avg_baseline_income": 118091.0,
+        "avg_income_change": 4374.0,
+        "avg_income_change_pct": 3.7
       }
     ],
     "phase2": [
       {
         "decile": 1,
-        "avg_baseline_income": 19369.0,
-        "avg_income_change": 40.0,
-        "avg_income_change_pct": 0.2
+        "avg_baseline_income": 18807.0,
+        "avg_income_change": 37.0,
+        "avg_income_change_pct": 0.19
       },
       {
         "decile": 2,
-        "avg_baseline_income": 31306.0,
-        "avg_income_change": 138.0,
-        "avg_income_change_pct": 0.44
+        "avg_baseline_income": 33784.0,
+        "avg_income_change": 161.0,
+        "avg_income_change_pct": 0.48
       },
       {
         "decile": 3,
-        "avg_baseline_income": 34119.0,
-        "avg_income_change": 286.0,
-        "avg_income_change_pct": 0.84
+        "avg_baseline_income": 32295.0,
+        "avg_income_change": 257.0,
+        "avg_income_change_pct": 0.8
       },
       {
         "decile": 4,
-        "avg_baseline_income": 40303.0,
-        "avg_income_change": 703.0,
-        "avg_income_change_pct": 1.74
+        "avg_baseline_income": 39104.0,
+        "avg_income_change": 530.0,
+        "avg_income_change_pct": 1.36
       },
       {
         "decile": 5,
-        "avg_baseline_income": 46282.0,
-        "avg_income_change": 700.0,
-        "avg_income_change_pct": 1.51
+        "avg_baseline_income": 54832.0,
+        "avg_income_change": 579.0,
+        "avg_income_change_pct": 1.06
       },
       {
         "decile": 6,
-        "avg_baseline_income": 50671.0,
-        "avg_income_change": 830.0,
-        "avg_income_change_pct": 1.64
+        "avg_baseline_income": 52660.0,
+        "avg_income_change": 718.0,
+        "avg_income_change_pct": 1.36
       },
       {
         "decile": 7,
-        "avg_baseline_income": 51869.0,
-        "avg_income_change": 1416.0,
-        "avg_income_change_pct": 2.73
+        "avg_baseline_income": 57538.0,
+        "avg_income_change": 1462.0,
+        "avg_income_change_pct": 2.54
       },
       {
         "decile": 8,
-        "avg_baseline_income": 72088.0,
-        "avg_income_change": 2271.0,
-        "avg_income_change_pct": 3.15
+        "avg_baseline_income": 63448.0,
+        "avg_income_change": 2220.0,
+        "avg_income_change_pct": 3.5
       },
       {
         "decile": 9,
-        "avg_baseline_income": 84016.0,
-        "avg_income_change": 3638.0,
-        "avg_income_change_pct": 4.33
+        "avg_baseline_income": 92146.0,
+        "avg_income_change": 4551.0,
+        "avg_income_change_pct": 4.94
       },
       {
         "decile": 10,
-        "avg_baseline_income": 101944.0,
-        "avg_income_change": 8418.0,
-        "avg_income_change_pct": 8.26
+        "avg_baseline_income": 118091.0,
+        "avg_income_change": 7331.0,
+        "avg_income_change_pct": 6.21
       }
     ]
   },
@@ -245,112 +245,50 @@
     "phase1": [
       {
         "decile": 1,
-        "pct_winners": 9.1,
-        "pct_unchanged": 90.9,
+        "pct_winners": 8.5,
+        "pct_unchanged": 91.5,
         "pct_losers": 0.0
       },
       {
         "decile": 2,
-        "pct_winners": 51.7,
-        "pct_unchanged": 48.3,
+        "pct_winners": 54.0,
+        "pct_unchanged": 46.0,
         "pct_losers": 0.0
       },
       {
         "decile": 3,
-        "pct_winners": 64.3,
-        "pct_unchanged": 35.7,
+        "pct_winners": 55.7,
+        "pct_unchanged": 44.3,
         "pct_losers": 0.0
       },
       {
         "decile": 4,
-        "pct_winners": 81.3,
-        "pct_unchanged": 18.7,
+        "pct_winners": 67.3,
+        "pct_unchanged": 32.7,
         "pct_losers": 0.0
       },
       {
         "decile": 5,
-        "pct_winners": 72.6,
-        "pct_unchanged": 27.4,
+        "pct_winners": 57.8,
+        "pct_unchanged": 42.2,
         "pct_losers": 0.0
       },
       {
         "decile": 6,
-        "pct_winners": 85.5,
-        "pct_unchanged": 14.5,
+        "pct_winners": 69.6,
+        "pct_unchanged": 30.4,
         "pct_losers": 0.0
       },
       {
         "decile": 7,
-        "pct_winners": 81.6,
-        "pct_unchanged": 18.2,
-        "pct_losers": 0.2
+        "pct_winners": 86.5,
+        "pct_unchanged": 13.4,
+        "pct_losers": 0.1
       },
       {
         "decile": 8,
-        "pct_winners": 96.6,
-        "pct_unchanged": 3.4,
-        "pct_losers": 0.0
-      },
-      {
-        "decile": 9,
-        "pct_winners": 99.8,
-        "pct_unchanged": 0.2,
-        "pct_losers": 0.0
-      },
-      {
-        "decile": 10,
-        "pct_winners": 89.2,
-        "pct_unchanged": 10.8,
-        "pct_losers": 0.0
-      }
-    ],
-    "phase2": [
-      {
-        "decile": 1,
-        "pct_winners": 28.0,
-        "pct_unchanged": 72.0,
-        "pct_losers": 0.0
-      },
-      {
-        "decile": 2,
-        "pct_winners": 57.4,
-        "pct_unchanged": 40.6,
-        "pct_losers": 2.0
-      },
-      {
-        "decile": 3,
-        "pct_winners": 80.9,
-        "pct_unchanged": 19.1,
-        "pct_losers": 0.0
-      },
-      {
-        "decile": 4,
-        "pct_winners": 87.7,
-        "pct_unchanged": 12.3,
-        "pct_losers": 0.0
-      },
-      {
-        "decile": 5,
-        "pct_winners": 75.0,
-        "pct_unchanged": 24.8,
-        "pct_losers": 0.2
-      },
-      {
-        "decile": 6,
-        "pct_winners": 87.9,
-        "pct_unchanged": 11.4,
-        "pct_losers": 0.7
-      },
-      {
-        "decile": 7,
-        "pct_winners": 83.7,
-        "pct_unchanged": 16.1,
-        "pct_losers": 0.2
-      },
-      {
-        "decile": 8,
-        "pct_winners": 96.6,
-        "pct_unchanged": 3.4,
+        "pct_winners": 97.5,
+        "pct_unchanged": 2.5,
         "pct_losers": 0.0
       },
       {
@@ -361,8 +299,70 @@
       },
       {
         "decile": 10,
-        "pct_winners": 89.2,
-        "pct_unchanged": 10.8,
+        "pct_winners": 99.5,
+        "pct_unchanged": 0.5,
+        "pct_losers": 0.0
+      }
+    ],
+    "phase2": [
+      {
+        "decile": 1,
+        "pct_winners": 18.4,
+        "pct_unchanged": 81.6,
+        "pct_losers": 0.0
+      },
+      {
+        "decile": 2,
+        "pct_winners": 60.1,
+        "pct_unchanged": 37.7,
+        "pct_losers": 2.3
+      },
+      {
+        "decile": 3,
+        "pct_winners": 68.9,
+        "pct_unchanged": 31.1,
+        "pct_losers": 0.0
+      },
+      {
+        "decile": 4,
+        "pct_winners": 94.0,
+        "pct_unchanged": 6.0,
+        "pct_losers": 0.0
+      },
+      {
+        "decile": 5,
+        "pct_winners": 76.5,
+        "pct_unchanged": 23.3,
+        "pct_losers": 0.2
+      },
+      {
+        "decile": 6,
+        "pct_winners": 76.2,
+        "pct_unchanged": 20.8,
+        "pct_losers": 3.0
+      },
+      {
+        "decile": 7,
+        "pct_winners": 86.5,
+        "pct_unchanged": 13.4,
+        "pct_losers": 0.1
+      },
+      {
+        "decile": 8,
+        "pct_winners": 97.5,
+        "pct_unchanged": 2.5,
+        "pct_losers": 0.0
+      },
+      {
+        "decile": 9,
+        "pct_winners": 99.9,
+        "pct_unchanged": 0.1,
+        "pct_losers": 0.0
+      },
+      {
+        "decile": 10,
+        "pct_winners": 99.5,
+        "pct_unchanged": 0.5,
         "pct_losers": 0.0
       }
     ]
@@ -370,195 +370,195 @@
   "baseline_deciles": [
     {
       "decile": 1,
-      "avg_hh_net_income": 19369.0,
-      "avg_hh_income_tax": 242.0
+      "avg_hh_net_income": 18807.0,
+      "avg_hh_income_tax": 225.0
     },
     {
       "decile": 2,
-      "avg_hh_net_income": 31306.0,
-      "avg_hh_income_tax": 1326.0
+      "avg_hh_net_income": 33784.0,
+      "avg_hh_income_tax": 1389.0
     },
     {
       "decile": 3,
-      "avg_hh_net_income": 34119.0,
-      "avg_hh_income_tax": 1633.0
+      "avg_hh_net_income": 32295.0,
+      "avg_hh_income_tax": 1461.0
     },
     {
       "decile": 4,
-      "avg_hh_net_income": 40303.0,
-      "avg_hh_income_tax": 3576.0
+      "avg_hh_net_income": 39104.0,
+      "avg_hh_income_tax": 2909.0
     },
     {
       "decile": 5,
-      "avg_hh_net_income": 46282.0,
-      "avg_hh_income_tax": 3546.0
+      "avg_hh_net_income": 54832.0,
+      "avg_hh_income_tax": 3361.0
     },
     {
       "decile": 6,
-      "avg_hh_net_income": 50671.0,
-      "avg_hh_income_tax": 4274.0
+      "avg_hh_net_income": 52660.0,
+      "avg_hh_income_tax": 3926.0
     },
     {
       "decile": 7,
-      "avg_hh_net_income": 51869.0,
-      "avg_hh_income_tax": 6481.0
+      "avg_hh_net_income": 57538.0,
+      "avg_hh_income_tax": 6851.0
     },
     {
       "decile": 8,
-      "avg_hh_net_income": 72088.0,
-      "avg_hh_income_tax": 10040.0
+      "avg_hh_net_income": 63448.0,
+      "avg_hh_income_tax": 10084.0
     },
     {
       "decile": 9,
-      "avg_hh_net_income": 84016.0,
-      "avg_hh_income_tax": 16114.0
+      "avg_hh_net_income": 92146.0,
+      "avg_hh_income_tax": 19318.0
     },
     {
       "decile": 10,
-      "avg_hh_net_income": 101944.0,
-      "avg_hh_income_tax": 52413.0
+      "avg_hh_net_income": 118091.0,
+      "avg_hh_income_tax": 45554.0
     }
   ],
   "ruk_baseline_deciles": [
     {
       "decile": 1,
-      "avg_hh_net_income": 20037.0,
-      "avg_hh_income_tax": 335.0
+      "avg_hh_net_income": 20359.0,
+      "avg_hh_income_tax": 409.0
     },
     {
       "decile": 2,
-      "avg_hh_net_income": 30702.0,
-      "avg_hh_income_tax": 1188.0
+      "avg_hh_net_income": 31500.0,
+      "avg_hh_income_tax": 1175.0
     },
     {
       "decile": 3,
-      "avg_hh_net_income": 37172.0,
-      "avg_hh_income_tax": 1915.0
+      "avg_hh_net_income": 35112.0,
+      "avg_hh_income_tax": 2030.0
     },
     {
       "decile": 4,
-      "avg_hh_net_income": 41632.0,
-      "avg_hh_income_tax": 2820.0
+      "avg_hh_net_income": 42121.0,
+      "avg_hh_income_tax": 2945.0
     },
     {
       "decile": 5,
-      "avg_hh_net_income": 43664.0,
-      "avg_hh_income_tax": 3862.0
+      "avg_hh_net_income": 45619.0,
+      "avg_hh_income_tax": 3832.0
     },
     {
       "decile": 6,
-      "avg_hh_net_income": 51328.0,
-      "avg_hh_income_tax": 5796.0
+      "avg_hh_net_income": 51265.0,
+      "avg_hh_income_tax": 5802.0
     },
     {
       "decile": 7,
-      "avg_hh_net_income": 54481.0,
-      "avg_hh_income_tax": 6610.0
+      "avg_hh_net_income": 56228.0,
+      "avg_hh_income_tax": 7129.0
     },
     {
       "decile": 8,
-      "avg_hh_net_income": 68888.0,
-      "avg_hh_income_tax": 10059.0
+      "avg_hh_net_income": 66426.0,
+      "avg_hh_income_tax": 9320.0
     },
     {
       "decile": 9,
-      "avg_hh_net_income": 74408.0,
-      "avg_hh_income_tax": 14407.0
+      "avg_hh_net_income": 72051.0,
+      "avg_hh_income_tax": 14006.0
     },
     {
       "decile": 10,
-      "avg_hh_net_income": 128149.0,
-      "avg_hh_income_tax": 50767.0
+      "avg_hh_net_income": 129869.0,
+      "avg_hh_income_tax": 53746.0
     }
   ],
   "pe_time_series": [
     {
       "year": 2023,
-      "mean_equiv_net_income": 38069.0,
-      "median_equiv_net_income": 35256.0,
-      "mean_hh_net_income": 53360.0,
-      "median_hh_net_income": 46194.0,
-      "mean_hh_income_tax": 3128.0,
-      "median_hh_income_tax": 857.0,
-      "mean_total_deductions": 5697.0,
-      "median_total_deductions": 2915.0
+      "mean_equiv_net_income": 39151.0,
+      "median_equiv_net_income": 35331.0,
+      "mean_hh_net_income": 56173.0,
+      "median_hh_net_income": 47232.0,
+      "mean_hh_income_tax": 2844.0,
+      "median_hh_income_tax": 705.0,
+      "mean_total_deductions": 5436.0,
+      "median_total_deductions": 2831.0
     },
     {
       "year": 2024,
-      "mean_equiv_net_income": 40416.0,
-      "median_equiv_net_income": 37607.0,
-      "mean_hh_net_income": 55573.0,
-      "median_hh_net_income": 48701.0,
-      "mean_hh_income_tax": 3446.0,
-      "median_hh_income_tax": 1028.0,
-      "mean_total_deductions": 5740.0,
-      "median_total_deductions": 2968.0
+      "mean_equiv_net_income": 41615.0,
+      "median_equiv_net_income": 37536.0,
+      "mean_hh_net_income": 58597.0,
+      "median_hh_net_income": 49785.0,
+      "mean_hh_income_tax": 3128.0,
+      "median_hh_income_tax": 868.0,
+      "mean_total_deductions": 5441.0,
+      "median_total_deductions": 2901.0
     },
     {
       "year": 2025,
-      "mean_equiv_net_income": 41829.0,
+      "mean_equiv_net_income": 43059.0,
       "median_equiv_net_income": 38965.0,
-      "mean_hh_net_income": 57269.0,
-      "median_hh_net_income": 50858.0,
-      "mean_hh_income_tax": 3733.0,
-      "median_hh_income_tax": 1211.0,
-      "mean_total_deductions": 6136.0,
+      "mean_hh_net_income": 60292.0,
+      "median_hh_net_income": 51774.0,
+      "mean_hh_income_tax": 3413.0,
+      "median_hh_income_tax": 1044.0,
+      "mean_total_deductions": 5832.0,
       "median_total_deductions": 3118.0
     },
     {
       "year": 2026,
-      "mean_equiv_net_income": 43092.0,
-      "median_equiv_net_income": 40021.0,
-      "mean_hh_net_income": 58694.0,
-      "median_hh_net_income": 52250.0,
-      "mean_hh_income_tax": 3973.0,
-      "median_hh_income_tax": 1338.0,
-      "mean_total_deductions": 6468.0,
-      "median_total_deductions": 3246.0
+      "mean_equiv_net_income": 44267.0,
+      "median_equiv_net_income": 40026.0,
+      "mean_hh_net_income": 61699.0,
+      "median_hh_net_income": 52934.0,
+      "mean_hh_income_tax": 3663.0,
+      "median_hh_income_tax": 1153.0,
+      "mean_total_deductions": 6177.0,
+      "median_total_deductions": 3238.0
     },
     {
       "year": 2027,
-      "mean_equiv_net_income": 44057.0,
-      "median_equiv_net_income": 40834.0,
-      "mean_hh_net_income": 59743.0,
-      "median_hh_net_income": 52959.0,
-      "mean_hh_income_tax": 4148.0,
-      "median_hh_income_tax": 1431.0,
-      "mean_total_deductions": 6735.0,
-      "median_total_deductions": 3452.0
+      "mean_equiv_net_income": 45245.0,
+      "median_equiv_net_income": 40839.0,
+      "mean_hh_net_income": 62809.0,
+      "median_hh_net_income": 53922.0,
+      "mean_hh_income_tax": 3836.0,
+      "median_hh_income_tax": 1253.0,
+      "mean_total_deductions": 6442.0,
+      "median_total_deductions": 3363.0
     },
     {
       "year": 2028,
-      "mean_equiv_net_income": 44956.0,
-      "median_equiv_net_income": 41795.0,
-      "mean_hh_net_income": 60799.0,
-      "median_hh_net_income": 53777.0,
-      "mean_hh_income_tax": 4304.0,
-      "median_hh_income_tax": 1514.0,
-      "mean_total_deductions": 6981.0,
-      "median_total_deductions": 3624.0
+      "mean_equiv_net_income": 46166.0,
+      "median_equiv_net_income": 41721.0,
+      "mean_hh_net_income": 63938.0,
+      "median_hh_net_income": 54711.0,
+      "mean_hh_income_tax": 3990.0,
+      "median_hh_income_tax": 1333.0,
+      "mean_total_deductions": 6686.0,
+      "median_total_deductions": 3492.0
     },
     {
       "year": 2029,
-      "mean_equiv_net_income": 45841.0,
-      "median_equiv_net_income": 42571.0,
-      "mean_hh_net_income": 61844.0,
-      "median_hh_net_income": 54604.0,
-      "mean_hh_income_tax": 4462.0,
-      "median_hh_income_tax": 1596.0,
-      "mean_total_deductions": 7233.0,
-      "median_total_deductions": 3793.0
+      "mean_equiv_net_income": 47069.0,
+      "median_equiv_net_income": 42469.0,
+      "mean_hh_net_income": 65049.0,
+      "median_hh_net_income": 55505.0,
+      "mean_hh_income_tax": 4143.0,
+      "median_hh_income_tax": 1411.0,
+      "mean_total_deductions": 6935.0,
+      "median_total_deductions": 3626.0
     },
     {
       "year": 2030,
-      "mean_equiv_net_income": 46737.0,
+      "mean_equiv_net_income": 47998.0,
       "median_equiv_net_income": 43441.0,
-      "mean_hh_net_income": 62949.0,
-      "median_hh_net_income": 55622.0,
-      "mean_hh_income_tax": 4643.0,
-      "median_hh_income_tax": 1694.0,
-      "mean_total_deductions": 7510.0,
-      "median_total_deductions": 3994.0
+      "mean_hh_net_income": 66240.0,
+      "median_hh_net_income": 56681.0,
+      "mean_hh_income_tax": 4320.0,
+      "median_hh_income_tax": 1505.0,
+      "mean_total_deductions": 7207.0,
+      "median_total_deductions": 3765.0
     }
   ],
   "rate_comparison": [
@@ -571,7 +571,7 @@
       "phase2_rate": 16
     },
     {
-      "threshold": 15462,
+      "threshold": 2892,
       "current_band": "Basic",
       "current_rate": 20,
       "ruk_rate": null,
@@ -579,9 +579,17 @@
       "phase2_rate": null
     },
     {
-      "threshold": 27834,
+      "threshold": 15264,
       "current_band": "Intermediate",
       "current_rate": 21,
+      "ruk_rate": null,
+      "phase1_rate": null,
+      "phase2_rate": null
+    },
+    {
+      "threshold": 31092,
+      "current_band": "Higher",
+      "current_rate": 42,
       "ruk_rate": null,
       "phase1_rate": null,
       "phase2_rate": null
@@ -595,15 +603,7 @@
       "phase2_rate": 36
     },
     {
-      "threshold": 43662,
-      "current_band": "Higher",
-      "current_rate": 42,
-      "ruk_rate": null,
-      "phase1_rate": null,
-      "phase2_rate": null
-    },
-    {
-      "threshold": 75000,
+      "threshold": 62430,
       "current_band": "Advanced",
       "current_rate": 45,
       "ruk_rate": null,
@@ -611,9 +611,17 @@
       "phase2_rate": null
     },
     {
-      "threshold": 125140,
+      "threshold": 112570,
       "current_band": "Top",
       "current_rate": 48,
+      "ruk_rate": null,
+      "phase1_rate": null,
+      "phase2_rate": null
+    },
+    {
+      "threshold": 125140,
+      "current_band": null,
+      "current_rate": null,
       "ruk_rate": 45,
       "phase1_rate": 44,
       "phase2_rate": 41
@@ -622,21 +630,21 @@
   "article_comparison": {
     "phase1": {
       "article_claim": "2",
-      "pe_estimate_bn": 2.2,
+      "pe_estimate_bn": 2.0,
       "description": "Phase 1: align with rUK + 1pp cut"
     },
     "phase2_additional": {
       "article_claim": "3.7",
-      "pe_estimate_bn": 2.3,
+      "pe_estimate_bn": 2.2,
       "description": "Phase 2: further 3pp cut (additional cost)"
     },
     "total": {
       "article_claim": "5.7",
-      "pe_estimate_bn": 4.5,
+      "pe_estimate_bn": 4.2,
       "description": "Total cost (4pp below rUK)"
     },
     "growth_per_pp_ifs_bn": 0.3,
     "growth_needed_phase1_pp": 7.0,
-    "growth_needed_total_pp": 15.0
+    "growth_needed_total_pp": 14.0
   }
 }

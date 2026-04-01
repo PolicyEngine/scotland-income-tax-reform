@@ -311,7 +311,7 @@ export default function ReformTab({ data }) {
       <div className="section-card">
         <SectionHeading
           title="Rate schedule comparison"
-          description="Marginal income tax rates at each income level. Use the dropdowns to compare any two schedules — current Scottish, rest of UK, Phase 1, or Phase 2. The step chart shows where rates jump at each band threshold."
+          description="Marginal income tax rates by taxable income (income above the personal allowance). The step chart shows where rates jump at each band threshold."
         />
         <RateScheduleChart rateComparison={data.rate_comparison} selectedPhase={selectedPhase} />
       </div>

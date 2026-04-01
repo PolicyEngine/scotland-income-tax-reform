@@ -222,6 +222,8 @@ def build_article_comparison(phase1_cost, phase2_cost, phase2_additional):
             "pe_estimate_bn": round(p2_bn, 1),
             "description": "Total cost (4pp below rUK)",
         },
+        # IFS estimate: each 1pp of GDP growth ≈ £0.3bn additional Scottish
+        # revenue. Source: IFS Green Budget 2025, Chapter 5, Table 5.2.
         "growth_per_pp_ifs_bn": 0.3,
         "growth_needed_phase1_pp": round(p1_bn / 0.3, 0),
         "growth_needed_total_pp": round(p2_bn / 0.3, 0),

@@ -31,7 +31,6 @@ RUK_BAND_NAMES = ["Basic", "Higher", "Additional"]
 def _read_scottish_rates(sim, year):
     """Read Scottish income tax rates and thresholds from the simulation."""
     params = sim.tax_benefit_system.parameters
-    pa = params.gov.hmrc.income_tax.allowances.personal_allowance.amount(f"{year}-01-01")
     scot = params.gov.hmrc.income_tax.rates.scotland.rates
     rates = []
     for i, b in enumerate(scot.brackets):
@@ -39,11 +38,9 @@ def _read_scottish_rates(sim, year):
             break
         threshold = b.threshold(f"{year}-01-01")
         rate = b.rate(f"{year}-01-01")
-        # Convert from threshold-above-PA to income threshold
-        income_threshold = round(threshold + pa) if threshold > 0 else 0
         rates.append({
             "band": SCOTTISH_BAND_NAMES[i],
-            "threshold": income_threshold,
+            "threshold": round(threshold),
             "rate": round(rate * 100),
         })
     return rates
@@ -96,8 +93,13 @@ def make_reform(rate_cut_pp):
         schedule = []
         for i in range(n_scot):
             if i < n_scot - n_ruk:
-                # Filler brackets mapped to the basic rate
-                threshold = i  # 0, 1, 2, ...
+                # Filler brackets mapped to the basic rate.
+                # Use distinct ascending thresholds (0, 1, 2, …) so the
+                # parameter tree keeps them as separate brackets — the
+                # tax_band formula reads thresholds[:5] and needs exactly
+                # 5 entries.  All filler brackets share the basic rate, so
+                # the tiny threshold differences have no effect on liability.
+                threshold = i  # 0, 1, 2, …
                 rate = ruk_brackets[0][1] - cut
             else:
                 ruk_idx = i - (n_scot - n_ruk)
