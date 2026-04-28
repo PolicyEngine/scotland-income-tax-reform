@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import ReformTab from "../src/components/ReformTab";
 import ScottishBaselineTab from "../src/components/ScottishBaselineTab";
 import MethodologyTab from "../src/components/MethodologyTab";
+import { withBasePath } from "../src/basePath";
 
 const TAB_OPTIONS = [
   { id: "reform", label: "Reform" },
@@ -36,7 +37,7 @@ function Dashboard() {
   useEffect(() => {
     async function loadData() {
       try {
-        const response = await fetch("/data/reform_results.json");
+        const response = await fetch(withBasePath("/data/reform_results.json"));
         if (!response.ok) {
           throw new Error("reform_results.json not found");
         }
