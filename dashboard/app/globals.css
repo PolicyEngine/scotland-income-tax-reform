@@ -196,26 +196,6 @@
     z-index: 0;
   }
 
-  .title-row {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    width: 100%;
-    background: color-mix(in srgb, var(--pe-color-primary-700) 94%, transparent);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 2px 12px color-mix(in srgb, var(--pe-color-gray-900) 16%, transparent);
-  }
-
-  .title-row h1 {
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-    font-weight: var(--pe-font-weight-bold);
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    color: var(--pe-color-text-inverse);
-    margin: 0;
-  }
-
   .eyebrow {
     font-size: var(--pe-font-size-xs);
     font-weight: var(--pe-font-weight-semibold);

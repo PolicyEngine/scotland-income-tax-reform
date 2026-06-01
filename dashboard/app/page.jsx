@@ -64,13 +64,10 @@ function Dashboard() {
 
   return (
     <div className="app-shell min-h-screen">
-      <header className="title-row">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 md:px-8">
-          <h1>Scotland income tax analysis dashboard</h1>
-        </div>
-      </header>
-
       <main className="relative z-[1] mx-auto max-w-[1400px] px-6 py-10 md:px-8 md:py-12">
+        <h1 className="mb-6 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
+          Scotland income tax analysis dashboard
+        </h1>
         <div className="animate-[fadeIn_0.4s_ease-out]">
           <p className="mb-3 text-[1.05rem] leading-relaxed text-slate-600">
             Reform UK Scotland{" "}
