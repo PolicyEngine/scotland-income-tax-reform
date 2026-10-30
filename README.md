@@ -1,6 +1,6 @@
 # Scotland Income Tax Change Dashboard
 
-**Live dashboard:** [scotland-income-tax-reform.vercel.app](https://scotland-income-tax-reform.vercel.app)
+**Live dashboard:** [policyengine.org/uk/scotland-income-tax-reform](https://policyengine.org/uk/scotland-income-tax-reform)
 
 Data pipeline and interactive dashboard estimating the fiscal and distributional effects of Reform UK Scotland's income tax proposal using [PolicyEngine UK](https://github.com/PolicyEngine/policyengine-uk).
 
