@@ -7,7 +7,7 @@ name = "scotland-income-tax-reform"
 version = "0.1.0"
 description = "Data pipeline and dashboard for Reform UK Scotland's income tax proposal."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
   "numpy>=1.26",
   "pandas>=2.2",
